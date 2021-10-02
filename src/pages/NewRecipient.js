@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Text } from '@chakra-ui/react';
-import NewRecipientForm from '../components/NewRecipientForm';
+import NewRecipientForm from '../components/NewRecipientForm/NewRecipientForm';
 
 const NewRecipient = () => {
   return (
@@ -12,7 +12,7 @@ const NewRecipient = () => {
       marginX="auto"
       paddingX={4}
     >
-      <Text marginY={6} fontSize="2xl" color="white" fontWeight="bold">
+      <Text marginY={6} fontSize="2xl" fontWeight="bold">
         Nuevo Destinatario
       </Text>
       <NewRecipientForm />
