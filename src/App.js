@@ -3,6 +3,7 @@ import { ChakraProvider, Box, theme } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import NewRecipient from './pages/NewRecipient';
 import TransferMoney from './pages/TransferMoney';
+import Record from './pages/Record';
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
       <Box>
         <ColorModeSwitcher />
         {/*<NewRecipient />*/}
-        <TransferMoney />
+        {/*<TransferMoney />*/}
+        <Record />
       </Box>
     </ChakraProvider>
   );
