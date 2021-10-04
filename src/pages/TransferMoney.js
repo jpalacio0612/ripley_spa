@@ -11,6 +11,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useToast,
 } from '@chakra-ui/react';
 
 const recipients = [
@@ -97,24 +98,27 @@ const TransferMoney = () => {
         </Button>
       ))}
       <Box textAlign="left" marginY={8}>
+        <Text marginY={4} fontWeight="bold">
+          Información del Destinatario
+        </Text>
         <HStack>
-          <Text fontWeight="bold">Nombre:</Text>
+          <Text>Nombre:</Text>
           <Text>{selectedRecipient.name}</Text>
         </HStack>
         <HStack>
-          <Text fontWeight="bold">Correo</Text>
+          <Text>Correo:</Text>
           <Text>{selectedRecipient.email}</Text>
         </HStack>
         <HStack>
-          <Text fontWeight="bold">Banco:</Text>
+          <Text>Banco:</Text>
           <Text>{selectedRecipient.bank}</Text>
         </HStack>
         <HStack>
-          <Text fontWeight="bold">Número de Cuenta:</Text>
+          <Text>Número de Cuenta:</Text>
           <Text>{selectedRecipient.accountNumber}</Text>
         </HStack>
       </Box>
-      <Text>Monto:</Text>
+      <Text fontWeight="bold">Monto</Text>
       <NumberInput
         min={0}
         defaultValue={0}

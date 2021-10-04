@@ -1,19 +1,26 @@
 import React from 'react';
 import { ChakraProvider, Box, theme } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
 import NewRecipient from './pages/NewRecipient';
 import TransferMoney from './pages/TransferMoney';
 import Record from './pages/Record';
+import Navbar from './components/Navbar.js';
+import Home from './pages/Home';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box>
-        <ColorModeSwitcher />
-        {/*<NewRecipient />*/}
-        {/*<TransferMoney />*/}
-        <Record />
-      </Box>
+      <Router>
+        <Navbar />
+        <Box>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/Nuevodestinatario" exact component={NewRecipient} />
+            <Route path="/Transferencia" exact component={TransferMoney} />
+            <Route path="/Historial" exact component={Record} />
+          </Switch>
+        </Box>
+      </Router>
     </ChakraProvider>
   );
 }
