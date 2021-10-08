@@ -1,40 +1,79 @@
 import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-import { Box, Button, Text } from '@chakra-ui/react';
+import {
+  Button,
+  Text,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { HamburgerIcon } from '@chakra-ui/icons';
 
 const Navbar = () => {
+  const [isDesktop] = useMediaQuery('(min-width: 900px)');
+
   return (
-    <Box
+    <HStack
       display="flex"
-      justifyContent="center"
+      justifyContent="space-evenly"
       alignItems="center"
-      direction="column"
       paddingX={4}
-      height="10vh"
-      fontSize="2xl"
+      paddingY={4}
+      height="auto"
       fontWeight="bold"
+      flexWrap="wrap"
     >
-      <Link to="/">
-        <Text>Mi Banco</Text>
-      </Link>
-      <Link to="/Nuevodestinatario">
-        <Button minWidth="200" margin={10} colorScheme="purple">
-          Nuevo Destinatario
-        </Button>
-      </Link>
-      <Link to="/Transferencia">
-        <Button minWidth="200" margin={10} colorScheme="purple">
-          Transferencia
-        </Button>
-      </Link>
-      <Link to="/Historial">
-        <Button minWidth="200" margin={10} colorScheme="purple">
-          Historial
-        </Button>
-      </Link>
+      {isDesktop ? (
+        <>
+          <Link to="/">
+            <Text align="center" fontSize="2xl">
+              Mi Banco
+            </Text>
+          </Link>
+          <Link to="/nuevo-destinatario">
+            <Button minWidth="3xs" colorScheme="purple">
+              Nuevo Destinatario
+            </Button>
+          </Link>
+          <Link to="/transferencia">
+            <Button minWidth="3xs" colorScheme="purple">
+              Transferencia
+            </Button>
+          </Link>
+          <Link to="/historial">
+            <Button minWidth="3xs" colorScheme="purple">
+              Historial
+            </Button>
+          </Link>
+        </>
+      ) : (
+        <Menu>
+          <MenuButton as={IconButton} icon={<HamburgerIcon />} />
+          <MenuList>
+            <MenuItem>
+              <Link to="/nuevo-destinatario">Nuevo Destinario</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/transferencia">Transferencia</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to="/historial">Historial</Link>
+            </MenuItem>
+          </MenuList>
+          <Link to="/">
+            <Text align="center" fontSize="2xl">
+              Mi Banco
+            </Text>
+          </Link>
+        </Menu>
+      )}
       <ColorModeSwitcher />
-    </Box>
+    </HStack>
   );
 };
 

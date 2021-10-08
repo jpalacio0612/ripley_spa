@@ -11,13 +11,13 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <Router>
-        <Navbar />
         <Box>
+          <Navbar />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/Nuevodestinatario" exact component={NewRecipient} />
-            <Route path="/Transferencia" exact component={TransferMoney} />
-            <Route path="/Historial" exact component={Record} />
+            <Route path="/nuevo-destinatario" exact component={NewRecipient} />
+            <Route path="/transferencia" exact component={TransferMoney} />
+            <Route path="/historial" exact component={Record} />
           </Switch>
         </Box>
       </Router>
