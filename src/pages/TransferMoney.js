@@ -13,43 +13,19 @@ import {
   NumberDecrementStepper,
   useToast,
 } from '@chakra-ui/react';
-
-const recipients = [
-  {
-    id: 0,
-    name: 'Alejandra Lorduy M',
-    email: 'alelorduym@gmail.com',
-    bank: 'Banco Estado',
-    accountNumber: '25904532',
-  },
-  {
-    id: 1,
-    name: 'Laura Bernal C',
-    email: 'laurabernalc@gmail.com',
-    bank: 'Banco Estado',
-    accountNumber: '25345017',
-  },
-  {
-    id: 2,
-    name: 'Felipe Herrera V',
-    email: 'fherrera@gmail.com',
-    bank: 'Banco Estado',
-    accountNumber: '25345008',
-  },
-  {
-    id: 3,
-    name: 'Jonathan Palacio',
-    email: 'jpalacio@gmail.com',
-    bank: 'Banco Estado',
-    accountNumber: '25567843',
-  },
-];
+import axios from '../lib/axios';
 
 const TransferMoney = () => {
   const [input, setInput] = useState('');
+  const [recipients, setRecipients] = useState([]);
   const [foundRecipients, setFoundRecipients] = useState([]);
   const [selectedRecipient, setSelectedRecipient] = useState({});
   const [amount, setAmount] = useState(0);
+  const toast = useToast();
+
+  useEffect(() => {
+    axios.get('/recipients').then(response => setRecipients(response.data));
+  }, []);
 
   useEffect(() => {
     searchRecipients();
@@ -63,8 +39,32 @@ const TransferMoney = () => {
   };
 
   const sendTransfer = () => {
-    console.log(selectedRecipient.id);
-    console.log(amount);
+    axios
+      .post('/transfers', {
+        recipientId: selectedRecipient._id,
+        amount: amount,
+      })
+      .then(() => {
+        setSelectedRecipient({});
+        setInput('');
+        setAmount(0);
+        toast({
+          title: `Transferencia a ${selectedRecipient.name} realizada con éxito`,
+          status: 'success',
+          duration: 10000,
+          isClosable: false,
+          variant: 'top-accent',
+        });
+      })
+      .catch(() => {
+        toast({
+          title: 'En este momento no fue posible realizar la transferencia',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          variant: 'top-accent',
+        });
+      });
   };
 
   return (

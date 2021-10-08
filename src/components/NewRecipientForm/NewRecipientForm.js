@@ -8,13 +8,13 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import axios from '../../lib/axios';
 import schema from './validationSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const NewRecipientForm = ({ sendData }) => {
+const NewRecipientForm = () => {
   const [banks, setBanks] = useState([]);
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -29,18 +29,46 @@ const NewRecipientForm = ({ sendData }) => {
       .catch(error => console.log(error));
   }, []);
 
-  const enviar = data => {
-    console.log(data);
-    toast({
-      title: 'El Nuevo Destinatario ha sido creado exitosamente',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+  const onSubmit = data => {
+    axios
+      .post('/recipients', data)
+      .then(() => {
+        toast({
+          title: 'El Nuevo Destinatario ha sido creado exitosamente',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          variant: 'top-accent',
+        });
+        toast({
+          title: 'Advertencia',
+          description:
+            'Al crear un Nuevo Destinatario, el monto máximo de la primera transferencia es de $300.000. Posteriormente, deberán transcurrir 24 horas para realizar una nueva transferencia sin esta restricción.',
+          status: 'warning',
+          duration: null,
+          isClosable: false,
+          variant: 'top-accent',
+        });
+        reset();
+      })
+      .catch(() => {
+        toast({
+          title: 'No se pudo crear el Nuevo Destinatario',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          variant: 'top-accent',
+        });
+      });
   };
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(enviar)} width="100%" spacing={4}>
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      width="100%"
+      spacing={4}
+    >
       <Input placeholder="RUT" {...register('rut')} isInvalid={errors.rut} />
       {errors.rut && <Text color="red.500">{errors.rut.message}</Text>}
       <Input

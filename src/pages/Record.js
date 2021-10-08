@@ -1,42 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from '../lib/axios';
 import { Text, Flex, Table, Thead, Th, Tr, Tbody, Td } from '@chakra-ui/react';
 
-const transfers = [
-  {
-    id: 0,
-    name: 'Alejandra Lorduy M',
-    rut: '259045320',
-    bank: 'Banco Estado',
-    accountNumber: '25904532',
-    amount: 20000,
-  },
-  {
-    id: 1,
-    name: 'Laura Bernal C',
-    rut: '253450177',
-    bank: 'Banco Estado',
-    accountNumber: '25345017',
-    amount: 250000,
-  },
-  {
-    id: 2,
-    name: 'Felipe Herrera V',
-    rut: '253450088',
-    bank: 'Banco Estado',
-    accountNumber: '25345008',
-    amount: 89000,
-  },
-  {
-    id: 3,
-    name: 'Jonathan Palacio',
-    rut: '255678430',
-    bank: 'Banco Estado',
-    accountNumber: '25567843',
-    amount: 10000,
-  },
-];
-
 const Record = () => {
+  const [transfers, setTransfers] = useState([]);
+
+  useEffect(() => {
+    axios.get('/transfers').then(res => setTransfers(res.data));
+  }, []);
+
   return (
     <Flex
       justifyContent="center"
@@ -62,10 +34,10 @@ const Record = () => {
         <Tbody>
           {transfers.map(transfer => (
             <Tr>
-              <Td>{transfer.name}</Td>
-              <Td>{transfer.rut}</Td>
-              <Td>{transfer.bank}</Td>
-              <Td>{transfer.accountNumber}</Td>
+              <Td>{transfer.recipient.name}</Td>
+              <Td>{transfer.recipient.rut}</Td>
+              <Td>{transfer.recipient.bank}</Td>
+              <Td>{transfer.recipient.accountNumber}</Td>
               <Td isNumeric>{transfer.amount}</Td>
             </Tr>
           ))}
