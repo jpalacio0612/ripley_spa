@@ -19,7 +19,7 @@ const TransferMoney = () => {
   const [input, setInput] = useState('');
   const [recipients, setRecipients] = useState([]);
   const [foundRecipients, setFoundRecipients] = useState([]);
-  const [selectedRecipient, setSelectedRecipient] = useState({});
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
   const [amount, setAmount] = useState(0);
   const toast = useToast();
 
@@ -32,9 +32,10 @@ const TransferMoney = () => {
   }, [input]);
 
   const searchRecipients = () => {
-    const recipientsFound = recipients.filter(recipient =>
-      recipient.name.startsWith(input)
-    );
+    const recipientsFound = recipients.filter(recipient => {
+      const lowerCaseName = recipient.name.toLowerCase();
+      return lowerCaseName.startsWith(input.toLowerCase());
+    });
     setFoundRecipients(input === '' ? [] : recipientsFound);
   };
 
@@ -45,7 +46,7 @@ const TransferMoney = () => {
         amount: amount,
       })
       .then(() => {
-        setSelectedRecipient({});
+        setSelectedRecipient(null);
         setInput('');
         setAmount(0);
         toast({
@@ -97,31 +98,34 @@ const TransferMoney = () => {
           {recipient.name}
         </Button>
       ))}
-      <Box textAlign="left" marginY={8}>
-        <Text marginY={4} fontWeight="bold">
-          Información del Destinatario
-        </Text>
-        <HStack>
-          <Text>Nombre:</Text>
-          <Text>{selectedRecipient.name}</Text>
-        </HStack>
-        <HStack>
-          <Text>Correo:</Text>
-          <Text>{selectedRecipient.email}</Text>
-        </HStack>
-        <HStack>
-          <Text>Banco:</Text>
-          <Text>{selectedRecipient.bank}</Text>
-        </HStack>
-        <HStack>
-          <Text>Número de Cuenta:</Text>
-          <Text>{selectedRecipient.accountNumber}</Text>
-        </HStack>
-      </Box>
-      <Text fontWeight="bold">Monto</Text>
+      {selectedRecipient && (
+        <Box textAlign="left" marginY={8} width="100%">
+          <Text marginY={4} fontWeight="bold">
+            Información del Destinatario
+          </Text>
+          <HStack>
+            <Text>Nombre:</Text>
+            <Text>{selectedRecipient.name}</Text>
+          </HStack>
+          <HStack>
+            <Text>Correo:</Text>
+            <Text>{selectedRecipient.email}</Text>
+          </HStack>
+          <HStack>
+            <Text>Banco:</Text>
+            <Text>{selectedRecipient.bank}</Text>
+          </HStack>
+          <HStack>
+            <Text>Número de Cuenta:</Text>
+            <Text>{selectedRecipient.accountNumber}</Text>
+          </HStack>
+        </Box>
+      )}
+      <Text fontWeight="bold" marginTop={4}>
+        Monto
+      </Text>
       <NumberInput
         min={0}
-        defaultValue={0}
         width="100%"
         value={amount}
         onChange={value => setAmount(value)}
@@ -138,6 +142,7 @@ const TransferMoney = () => {
         isFullWidth
         marginY={8}
         onClick={() => sendTransfer()}
+        disabled={amount <= 0 || !selectedRecipient}
       >
         Transferir
       </Button>
