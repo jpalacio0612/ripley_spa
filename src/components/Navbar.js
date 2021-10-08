@@ -2,7 +2,6 @@ import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import {
   Button,
-  Text,
   HStack,
   Menu,
   MenuButton,
@@ -10,9 +9,11 @@ import {
   MenuItem,
   IconButton,
   useMediaQuery,
+  Image,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import logoRipley from '../assets/images/logo-ripley.png';
 
 const Navbar = () => {
   const [isDesktop] = useMediaQuery('(min-width: 900px)');
@@ -31,9 +32,7 @@ const Navbar = () => {
       {isDesktop ? (
         <>
           <Link to="/">
-            <Text align="center" fontSize="2xl">
-              Mi Banco
-            </Text>
+            <Image width={150} src={logoRipley} />
           </Link>
           <Link to="/nuevo-destinatario">
             <Button minWidth="3xs" colorScheme="purple">
@@ -66,9 +65,7 @@ const Navbar = () => {
             </MenuItem>
           </MenuList>
           <Link to="/">
-            <Text align="center" fontSize="2xl">
-              Mi Banco
-            </Text>
+            <Image width={150} src={logoRipley} />
           </Link>
         </Menu>
       )}

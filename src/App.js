@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraProvider, Box, theme } from '@chakra-ui/react';
+import { ChakraProvider, Box, theme, Divider } from '@chakra-ui/react';
 import NewRecipient from './pages/NewRecipient';
 import TransferMoney from './pages/TransferMoney';
 import Record from './pages/Record';
@@ -13,6 +13,7 @@ function App() {
       <Router>
         <Box>
           <Navbar />
+          <Divider colorScheme="purple" />
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/nuevo-destinatario" exact component={NewRecipient} />
